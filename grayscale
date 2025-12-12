@@ -1,0 +1,35 @@
+#!/bin/bash
+
+STATE_FILE="$HOME/.grayscale_state"
+
+set_grayscale() {
+    nvidia-settings -a DigitalVibrance=-1024 >/dev/null 2>&1
+    xrandr --output eDP-1-1 --set CTM "0.299,0.587,0.114,0.299,0.587,0.114,0.299,0.587,0.114" 2>/dev/null
+    echo "on" > "$STATE_FILE"
+    echo "Grayscale: ON"
+}
+
+set_normal() {
+    nvidia-settings -a DigitalVibrance=0 >/dev/null 2>&1
+    xrandr --output eDP-1-1 --set CTM "1,0,0,0,1,0,0,0,1" 2>/dev/null
+    echo "off" > "$STATE_FILE"
+    echo "Grayscale: OFF"
+}
+
+toggle() {
+    if [[ -f "$STATE_FILE" ]] && [[ "$(cat "$STATE_FILE")" == "on" ]]; then
+        set_normal
+    else
+        set_grayscale
+    fi
+}
+
+case "${1:-toggle}" in
+    on)     set_grayscale ;;
+    off)    set_normal ;;
+    toggle) toggle ;;
+    *)
+        echo "Usage: grayscale [on|off|toggle]"
+        exit 1
+        ;;
+esac
