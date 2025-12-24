@@ -8,14 +8,14 @@ case "$1" in
         sudo mv "$CONF_DIR/10-intel.conf.disabled" "$CONF_DIR/10-intel.conf" 2>/dev/null
         echo "Переключено на Intel. Перезапуск X..."
         sleep 1
-        loginctl terminate-user $USER
+        sudo rc-service lightdm restart
         ;;
     nvidia)
         sudo mv "$CONF_DIR/10-intel.conf" "$CONF_DIR/10-intel.conf.disabled" 2>/dev/null
         sudo mv "$CONF_DIR/20-nvidia.conf.disabled" "$CONF_DIR/20-nvidia.conf" 2>/dev/null
         echo "Переключено на NVIDIA. Перезапуск X..."
         sleep 1
-        loginctl terminate-user $USER
+        sudo rc-service lightdm restart
         ;;
     status)
         echo "Текущий режим:"
