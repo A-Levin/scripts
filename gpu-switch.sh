@@ -6,12 +6,16 @@ case "$1" in
     intel)
         sudo mv "$CONF_DIR/20-nvidia.conf" "$CONF_DIR/20-nvidia.conf.disabled" 2>/dev/null
         sudo mv "$CONF_DIR/10-intel.conf.disabled" "$CONF_DIR/10-intel.conf" 2>/dev/null
-        echo "Переключено на Intel. Перезапусти X или перезагрузись."
+        echo "Переключено на Intel. Перезапуск X..."
+        sleep 1
+        loginctl terminate-user $USER
         ;;
     nvidia)
         sudo mv "$CONF_DIR/10-intel.conf" "$CONF_DIR/10-intel.conf.disabled" 2>/dev/null
         sudo mv "$CONF_DIR/20-nvidia.conf.disabled" "$CONF_DIR/20-nvidia.conf" 2>/dev/null
-        echo "Переключено на NVIDIA. Перезапусти X или перезагрузись."
+        echo "Переключено на NVIDIA. Перезапуск X..."
+        sleep 1
+        loginctl terminate-user $USER
         ;;
     status)
         echo "Текущий режим:"
